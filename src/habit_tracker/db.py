@@ -78,6 +78,21 @@ class Tracker:
             raise ValueError(f"Item {name!r} already exists for {person}.") from exc
         return int(cur.lastrowid)
 
+    def delete_item(self, item_id: int) -> None:
+        """
+        Permanently delete an item together with its completion history.
+
+        Parameters
+        ----------
+        item_id : int
+            Id of the item to remove.
+        """
+        # ``log.item_id`` references ``items.id`` and foreign keys are enforced,
+        # so the child rows must be removed first.
+        with self._conn:
+            self._conn.execute("DELETE FROM log WHERE item_id = ?", (item_id,))
+            self._conn.execute("DELETE FROM items WHERE id = ?", (item_id,))
+
     def archive_item(self, item_id: int, on: date | None = None) -> None:
         """Stop tracking an item from day ``on`` (default today) onwards."""
         on = on or date.today()

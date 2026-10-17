@@ -194,7 +194,7 @@ def render_stats(tracker: Tracker) -> None:
 
 
 def render_manage(tracker: Tracker) -> None:
-    """Add new items for both or individual people, and archive old ones."""
+    """Add new items for both or individual people, and delete existing ones."""
     with st.form("add_item", clear_on_submit=True):
         name = st.text_input("Name")
         kind = st.radio("Type", KINDS, horizontal=True)
@@ -215,14 +215,14 @@ def render_manage(tracker: Tracker) -> None:
 
     st.divider()
     person_filter = st.selectbox("Manage items for", PERSONS, key="manage_person_select")
-    active = tracker.items(active_on=date.today(), person=person_filter)
-    if not active.empty:
-        target = st.selectbox("Archive item", active["name"], key="archive_item_select")
-        if st.button("Archive from today"):
-            item_id = int(active.loc[active["name"] == target, "id"].iloc[0])
-            tracker.archive_item(item_id)
+    items = tracker.items(person=person_filter)
+    if not items.empty:
+        target = st.selectbox("Delete item", items["name"], key="delete_item_select")
+        confirmed = st.checkbox("Yes, delete this item permanently", key="delete_confirm")
+        if st.button("Delete", disabled=not confirmed):
+            item_id = int(items.loc[items["name"] == target, "id"].iloc[0])
+            tracker.delete_item(item_id)
             st.rerun()
-
 
 def main() -> None:
     """Entry point."""
