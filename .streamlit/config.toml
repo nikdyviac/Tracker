@@ -1,0 +1,5 @@
+[theme]
+primaryColor = "#ff00ea"          # Changes the accent color (active tabs, buttons, etc.)
+backgroundColor = "#0e1117"       # Changes the main page background
+secondaryBackgroundColor = "#6000fa" # Changes input fields and widget backgrounds
+textColor = "#fafafa"
