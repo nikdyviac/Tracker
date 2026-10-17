@@ -226,7 +226,7 @@ def render_manage(tracker: Tracker) -> None:
 
 def main() -> None:
     """Entry point."""
-    st.set_page_config(page_title="Tracker", page_icon="✅")
+    st.set_page_config(page_title="Tracker", page_icon="🩷")
     tracker = get_tracker()
     tab_today, tab_stats, tab_manage = st.tabs(["Today", "Stats", "Manage"])
     with tab_today:
