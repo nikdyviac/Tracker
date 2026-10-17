@@ -26,7 +26,7 @@ from habit_tracker import (
 from habit_tracker.stats import WEEKDAYS
 
 WINDOWS = {"90 days": 90, "6 months": 182, "1 year": 365}
-
+ICON_PATH = Path(__file__).parent/ "assets" / "pink_heart.png"
 
 @st.cache_resource
 def get_tracker() -> Tracker:
@@ -226,7 +226,7 @@ def render_manage(tracker: Tracker) -> None:
 
 def main() -> None:
     """Entry point."""
-    st.set_page_config(page_title="Tracker", page_icon="🩷")
+    st.set_page_config(page_title="Tracker", page_icon=str(ICON_PATH))
     tracker = get_tracker()
     tab_today, tab_stats, tab_manage = st.tabs(["Today", "Stats", "Manage"])
     with tab_today:
